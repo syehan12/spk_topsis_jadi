@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 17, 2024 at 11:27 AM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 7.4.30
+-- Host: localhost:3306
+-- Generation Time: Jan 07, 2025 at 09:21 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `alternatif` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -37,10 +37,10 @@ CREATE TABLE `alternatif` (
 --
 
 INSERT INTO `alternatif` (`id`, `nama`) VALUES
-(19, 'Motor'),
-(20, 'Mobil'),
-(21, 'Kereta'),
-(23, 'Bus');
+(19, 'Laptop Lenovo A1'),
+(20, 'Laptop HP A2'),
+(21, 'Laptop Axioo A3'),
+(23, 'Laptop Acer A4');
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ INSERT INTO `alternatif` (`id`, `nama`) VALUES
 --
 
 CREATE TABLE `ir` (
-  `jumlah` int(11) NOT NULL,
+  `jumlah` int NOT NULL,
   `nilai` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -81,7 +81,7 @@ INSERT INTO `ir` (`jumlah`, `nilai`) VALUES
 --
 
 CREATE TABLE `kriteria` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `nama` varchar(20) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -90,10 +90,11 @@ CREATE TABLE `kriteria` (
 --
 
 INSERT INTO `kriteria` (`id`, `nama`) VALUES
-(34, 'Aksesibilitas'),
-(33, 'Biaya'),
-(32, 'Waktu Tempuh'),
-(35, 'Keselamatan');
+(34, 'Penyimpanan'),
+(33, 'Berat'),
+(32, 'Display'),
+(35, 'Processor'),
+(36, 'Ram');
 
 -- --------------------------------------------------------
 
@@ -102,10 +103,10 @@ INSERT INTO `kriteria` (`id`, `nama`) VALUES
 --
 
 CREATE TABLE `perbandingan_alternatif` (
-  `id` int(11) NOT NULL,
-  `alternatif1` int(11) NOT NULL,
-  `alternatif2` int(11) NOT NULL,
-  `pembanding` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `alternatif1` int NOT NULL,
+  `alternatif2` int NOT NULL,
+  `pembanding` int NOT NULL,
   `nilai` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -114,30 +115,36 @@ CREATE TABLE `perbandingan_alternatif` (
 --
 
 INSERT INTO `perbandingan_alternatif` (`id`, `alternatif1`, `alternatif2`, `pembanding`, `nilai`) VALUES
-(48, 20, 21, 34, 2),
-(47, 19, 21, 34, 4),
-(46, 19, 20, 34, 3),
-(45, 20, 21, 33, 2),
-(44, 19, 21, 33, 4),
-(43, 19, 20, 33, 3),
-(42, 20, 21, 32, 0.5),
-(41, 19, 21, 32, 4),
-(40, 19, 20, 32, 3),
-(49, 19, 23, 32, 1),
+(48, 20, 21, 34, 3),
+(47, 19, 21, 34, 5),
+(46, 19, 20, 34, 1),
+(45, 20, 21, 33, 1),
+(44, 19, 21, 33, 2),
+(43, 19, 20, 33, 4),
+(42, 20, 21, 32, 3),
+(41, 19, 21, 32, 5),
+(40, 19, 20, 32, 1),
+(49, 19, 23, 32, 3),
 (50, 20, 23, 32, 1),
 (51, 21, 23, 32, 1),
-(52, 19, 23, 33, 1),
-(53, 20, 23, 33, 1),
-(54, 21, 23, 33, 1),
-(55, 19, 23, 34, 1),
-(56, 20, 23, 34, 1),
-(57, 21, 23, 34, 1),
-(58, 19, 20, 35, 1),
-(59, 19, 21, 35, 1),
-(60, 19, 23, 35, 1),
-(61, 20, 21, 35, 1),
-(62, 20, 23, 35, 1),
-(63, 21, 23, 35, 1);
+(52, 19, 23, 33, 9),
+(53, 20, 23, 33, 7),
+(54, 21, 23, 33, 5),
+(55, 19, 23, 34, 7),
+(56, 20, 23, 34, 5),
+(57, 21, 23, 34, 3),
+(58, 19, 20, 35, 5),
+(59, 19, 21, 35, 6),
+(60, 19, 23, 35, 9),
+(61, 20, 21, 35, 3),
+(62, 20, 23, 35, 5),
+(63, 21, 23, 35, 2),
+(64, 19, 20, 36, 3),
+(65, 19, 21, 36, 6),
+(66, 19, 23, 36, 7),
+(67, 20, 21, 36, 3),
+(68, 20, 23, 36, 5),
+(69, 21, 23, 36, 2);
 
 -- --------------------------------------------------------
 
@@ -146,23 +153,28 @@ INSERT INTO `perbandingan_alternatif` (`id`, `alternatif1`, `alternatif2`, `pemb
 --
 
 CREATE TABLE `perbandingan_kriteria` (
-  `id` int(11) NOT NULL,
-  `kriteria1` int(11) NOT NULL,
-  `kriteria2` int(11) NOT NULL,
-  `nilai` float NOT NULL
+  `id` int NOT NULL,
+  `kriteria1` int NOT NULL,
+  `kriteria2` int NOT NULL,
+  `nilai` float NOT NULL,
+  `per` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `perbandingan_kriteria`
 --
 
-INSERT INTO `perbandingan_kriteria` (`id`, `kriteria1`, `kriteria2`, `nilai`) VALUES
-(15, 33, 34, 0.333333),
-(14, 32, 34, 5),
-(13, 32, 33, 7),
-(16, 32, 35, 1),
-(17, 33, 35, 1),
-(18, 34, 35, 1);
+INSERT INTO `perbandingan_kriteria` (`id`, `kriteria1`, `kriteria2`, `nilai`, `per`) VALUES
+(15, 33, 34, 0.23, 4.24),
+(14, 32, 34, 0.22, 4.39),
+(13, 32, 33, 5.19, 0.19),
+(16, 32, 35, 0.02, 39.68),
+(17, 33, 35, 0.02, 147.29),
+(18, 34, 35, 0.22, 9.81),
+(19, 32, 36, 0.07, 13.22),
+(20, 33, 36, 0.01, 147.29),
+(21, 34, 36, 0.1, 16.43),
+(22, 35, 36, 1.29, 0.77);
 
 -- --------------------------------------------------------
 
@@ -171,9 +183,9 @@ INSERT INTO `perbandingan_kriteria` (`id`, `kriteria1`, `kriteria2`, `nilai`) VA
 --
 
 CREATE TABLE `pv_alternatif` (
-  `id` int(11) NOT NULL,
-  `id_alternatif` int(11) NOT NULL,
-  `id_kriteria` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `id_alternatif` int NOT NULL,
+  `id_kriteria` int NOT NULL,
   `nilai` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -182,22 +194,26 @@ CREATE TABLE `pv_alternatif` (
 --
 
 INSERT INTO `pv_alternatif` (`id`, `id_alternatif`, `id_kriteria`, `nilai`) VALUES
-(63, 20, 34, 0.202713),
-(62, 19, 34, 0.420638),
-(61, 21, 33, 0.140671),
-(64, 21, 34, 0.140671),
-(60, 20, 33, 0.202713),
-(59, 19, 33, 0.420638),
-(58, 21, 32, 0.196584),
-(57, 20, 32, 0.149703),
-(56, 19, 32, 0.420263),
-(65, 23, 32, 0.23345),
-(66, 23, 33, 0.235979),
-(67, 23, 34, 0.235979),
-(68, 19, 35, 0.25),
-(69, 20, 35, 0.25),
-(70, 21, 35, 0.25),
-(71, 23, 35, 0.25);
+(63, 20, 34, 0.363874),
+(62, 19, 34, 0.448695),
+(61, 21, 33, 0.224204),
+(64, 21, 34, 0.127897),
+(60, 20, 33, 0.213349),
+(59, 19, 33, 0.518439),
+(58, 21, 32, 0.111404),
+(57, 20, 32, 0.290351),
+(56, 19, 32, 0.423684),
+(65, 23, 32, 0.174561),
+(66, 23, 33, 0.0440077),
+(67, 23, 34, 0.0595343),
+(68, 19, 35, 0.63571),
+(69, 20, 35, 0.217058),
+(70, 21, 35, 0.0941719),
+(71, 23, 35, 0.0530607),
+(72, 19, 36, 0.577139),
+(73, 20, 36, 0.260634),
+(74, 21, 36, 0.100888),
+(75, 23, 36, 0.06134);
 
 -- --------------------------------------------------------
 
@@ -206,7 +222,7 @@ INSERT INTO `pv_alternatif` (`id`, `id_alternatif`, `id_kriteria`, `nilai`) VALU
 --
 
 CREATE TABLE `pv_kriteria` (
-  `id_kriteria` int(11) NOT NULL,
+  `id_kriteria` int NOT NULL,
   `nilai` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -215,10 +231,11 @@ CREATE TABLE `pv_kriteria` (
 --
 
 INSERT INTO `pv_kriteria` (`id_kriteria`, `nilai`) VALUES
-(34, 0.180432),
-(33, 0.109941),
-(32, 0.485495),
-(35, 0.224132);
+(34, 0.0547888),
+(33, 0.00574692),
+(32, 0.0160506),
+(35, 0.506116),
+(36, 0.417297);
 
 -- --------------------------------------------------------
 
@@ -227,7 +244,7 @@ INSERT INTO `pv_kriteria` (`id_kriteria`, `nilai`) VALUES
 --
 
 CREATE TABLE `ranking` (
-  `id_alternatif` int(11) NOT NULL,
+  `id_alternatif` int NOT NULL,
   `nilai` float NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -236,10 +253,10 @@ CREATE TABLE `ranking` (
 --
 
 INSERT INTO `ranking` (`id_alternatif`, `nilai`) VALUES
-(19, 0.38221),
-(20, 0.187575),
-(21, 0.192321),
-(23, 0.237894);
+(19, 0.596944),
+(20, 0.244441),
+(21, 0.0998462),
+(23, 0.0587686);
 
 --
 -- Indexes for dumped tables
@@ -301,31 +318,31 @@ ALTER TABLE `ranking`
 -- AUTO_INCREMENT for table `alternatif`
 --
 ALTER TABLE `alternatif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `kriteria`
 --
 ALTER TABLE `kriteria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `perbandingan_alternatif`
 --
 ALTER TABLE `perbandingan_alternatif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `perbandingan_kriteria`
 --
 ALTER TABLE `perbandingan_kriteria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `pv_alternatif`
 --
 ALTER TABLE `pv_alternatif`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

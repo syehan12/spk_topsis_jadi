@@ -240,11 +240,11 @@ function inputDataPerbandinganAlternatif($alternatif1, $alternatif2, $pembanding
 }
 
 // Function to get Comparison Weight for Kriteria
-function getNilaiPerbandinganKriteria($kriteria1, $kriteria2) {
+function getNilaiPerbandinganKriteria($kriteria1, $kriteria2, &$per = null) {
     global $koneksi;
     $id_kriteria1 = getKriteriaID($kriteria1);
     $id_kriteria2 = getKriteriaID($kriteria2);
-    $query = "SELECT nilai FROM perbandingan_kriteria WHERE kriteria1=$id_kriteria1 AND kriteria2=$id_kriteria2";
+    $query = "SELECT nilai, per FROM perbandingan_kriteria WHERE kriteria1=$id_kriteria1 AND kriteria2=$id_kriteria2";
     $result = mysqli_query($koneksi, $query);
 
     if (!$result) {
@@ -253,12 +253,15 @@ function getNilaiPerbandinganKriteria($kriteria1, $kriteria2) {
     }
 
     if (mysqli_num_rows($result) == 0) {
+        $per = 0; // Default value for `per` if no record exists
         return 1;
     }
 
     $row = mysqli_fetch_array($result);
+    $per = $row['per']; // Pass `per` by reference
     return $row['nilai'];
 }
+
 
 // Function to get Comparison Weight for Alternatif
 function getNilaiPerbandinganAlternatif($alternatif1, $alternatif2, $pembanding) {
@@ -388,10 +391,10 @@ function showTabelPerbandingan($jenis, $kriteria) {
                     <td>
                         <div class="field">
     <?php
-            if ($kriteria == 'kriteria') {
-                $nilai = getNilaiPerbandinganKriteria($x, $y);
+             if ($kriteria == 'kriteria') {
+                $nilai = getNilaiPerbandinganKriteria($x, $y, $per);
             } else {
-                $nilai = getNilaiPerbandinganAlternatif($x, $y, ($jenis - 1));
+                $nilai = getNilaiPerbandinganAlternatif($x, $y, ($jenis - 1), $per);
             }
     ?>
                             <input type="number" name="bobot<?php echo $urut ?>" value="<?php echo $nilai ?>" max="10" step="0.01" required>
@@ -417,6 +420,8 @@ function showTabelPerbandingan($jenis, $kriteria) {
     <?php
 }
 
+
+// menampilkan tabel perbandingan bobot
 function showTabelPerbandinganAlt($jenis,$kriteria) {
 	include('config.php');
 
