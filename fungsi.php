@@ -397,12 +397,12 @@ function showTabelPerbandingan($jenis, $kriteria) {
                 $nilai = getNilaiPerbandinganAlternatif($x, $y, ($jenis - 1), $per);
             }
     ?>
-                            <input type="number" name="bobot<?php echo $urut ?>" value="<?php echo $nilai ?>" max="10" step="0.01" required>
+                           <input type="text" name="bobot<?php echo $urut ?>" value="<?php echo $nilai ?>" pattern="^\d*\.?\d*$" required>
                         </div>
                     </td>
                     <td>
                         <div class="field">
-                            <input type="number" name="per<?php echo $urut ?>" value="<?php echo $per?>" placeholder="Masukkan nilai per" step="0.01" required>
+                            <input type="text" name="per<?php echo $urut ?>" value="<?php echo $per?>" placeholder="Masukkan nilai per" pattern="^\d*\.?\d*$" required>
                         </div>
                     </td>
                 </tr>
